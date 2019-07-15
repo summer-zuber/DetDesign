@@ -1,0 +1,174 @@
+function prop = MaterialProperties(MatStr)
+% Here we keep track of various material properties!
+
+pc = PhysicalConstants();
+
+prop=[];
+if any(strcmpi(MatStr,{'Ge','Germanium'}))
+% Germanium Properties
+    prop.name='Ge';
+
+    prop.A=72.63; % -> wikipedia
+    prop.Z=32;
+    
+    % Density
+    prop.rhoD_m = 5.323e3; %[kg/m^3] -> wikipedia
+    prop.rhoD_n = prop.rhoD_m/prop.A*pc.nA_kg; %[#/m^3]
+    
+    % Debeye Temperature
+    prop.Td=374;%[K] from http://link.aps.org/doi/10.1103/PhysRev.124.698
+
+    
+    % Phonon Heat Capacity Coefficient
+    %prop.gC_mol = 0.38;%[J/kmol/K^4]
+    %prop.gC_v = prop.gC_mol/prop.A*prop.rhoD_m; % [J/m^3/K^4] = [J/kmol/K^4]*[kmol/kg]*[kg/m^3] 
+    prop.gC_v  = 12*pi^4/5*pc.kb*prop.rhoD_n/prop.Td^3; %J/K^4/m^3
+
+   
+elseif any(strcmpi(MatStr,{'Si','Silicon'}))
+%Silicon Properties
+    prop.name='Si';
+
+    prop.A=28;
+    prop.Z=14;
+    
+    % Density
+    prop.rhoD_m = 2.329e3; %[kg/m^3] -> Wikipedia
+    prop.rhoD_n = prop.rhoD_m/prop.A*pc.nA_kg; %[#/m^3]
+    
+    % Debeye Temperature
+    prop.Td=636;%[K] -> R Keyes paper
+    prop.Td=645;%[K] -> wikipedia
+    
+    % Phonon Heat Capacity Coefficient
+%     prop.gC_mol     =;%[J/kmol/K^4]
+%     prop.gC_v     = prop.gC_mol/prop.A*prop.rhoD_m; % [J/m^3/K^4] = [J/kmol/K^4]*[kmol/kg]*[kg/m^3] 
+    prop.gC_v  = 12*pi^4/5*pc.kb*prop.rhoD_n/prop.Td^3; %J/K^4/m^3
+elseif any(strcmpi(MatStr,{'TeO2'}))
+% Tellerium Oxide -> CUORE
+    prop.name='TeO2';
+
+    prop.A= 127.6+2*16;
+    
+    % Density
+    prop.rhoD_m = 6.04e3; %[kg/m^3] -> http://arxiv.org/pdf/1005.3686.pdf
+    prop.rhoD_n = prop.rhoD_m/prop.A*pc.nA_kg; %[#/m^3]
+    
+    % Debeye Temperature
+    prop.Td=232;%[K] -> http://arxiv.org/pdf/1005.3686.pdf
+    
+    
+    % Phonon Heat Capacity Coefficient
+%     prop.gC_mol     =;%[J/kmol/K^4]
+%     prop.gC_v     = prop.gC_mol/prop.A*prop.rhoD_m; % [J/m^3/K^4] = [J/kmol/K^4]*[kmol/kg]*[kg/m^3] 
+    prop.gC_v  = 12*pi^4/5*pc.kb*prop.rhoD_n/prop.Td^3; %J/K^4/m^3
+elseif any(strcmpi(MatStr,{'CaWO4'}))
+% Calcium Tungstate -> CRESST
+    prop.name='CaWO4';
+
+    prop.A= 287.93; %http://www.guidechem.com/dictionary/en/7790-75-2.html
+    
+    % Density
+    prop.rhoD_m = 6.06e3; %[kg/m^3] -> wikipedia
+    prop.rhoD_n = prop.rhoD_m/prop.A*pc.nA_kg; %[#/m^3]
+    
+    % Debeye Temperature
+    prop.Td=250;%[K] -> http://arxiv.org/pdf/0906.3290.pdf
+    
+    
+    % Phonon Heat Capacity Coefficient
+%     prop.gC_mol     =;%[J/kmol/K^4]
+%     prop.gC_v     = prop.gC_mol/prop.A*prop.rhoD_m; % [J/m^3/K^4] = [J/kmol/K^4]*[kmol/kg]*[kg/m^3] 
+    prop.gC_v  = 12*pi^4/5*pc.kb*prop.rhoD_n/prop.Td^3; %J/K^4/m^3
+elseif any(strcmpi(MatStr,{'ZnMO4'}))
+% Zinc Molybdate -> Next Gen CUORE
+    prop.name='ZnMoO4';
+
+    prop.A= 65.38 + 95.96 + 4*16; 
+    
+    % Density
+    prop.rhoD_m = 4.317e3; %[kg/m^3] -> http://link.springer.com/article/10.1134%2FS1063774508060266?LI=true#page-1
+    prop.rhoD_n = prop.rhoD_m/prop.A*pc.nA_kg; %[#/m^3]
+    
+    % Debeye Temperature
+    prop.Td=400;%[K] -> THIS IS JUST A GUESS!!
+    
+    
+    % Phonon Heat Capacity Coefficient
+%     prop.gC_mol     =;%[J/kmol/K^4]
+%     prop.gC_v     = prop.gC_mol/prop.A*prop.rhoD_m; % [J/m^3/K^4] = [J/kmol/K^4]*[kmol/kg]*[kg/m^3] 
+    prop.gC_v  = 12*pi^4/5*pc.kb*prop.rhoD_n/prop.Td^3; %J/K^4/m^3
+elseif any(strcmpi(MatStr,{'Al2O3','Sapphire'}))
+% Sapphire -> CRESST light detector
+    prop.name='Al2O3';
+
+    prop.A= 2*26.981+3*16; 
+    
+    % Density
+    prop.rhoD_m = 3.98e3; %[kg/m^3] -> wikipedia
+    prop.rhoD_n = prop.rhoD_m/prop.A*pc.nA_kg; %[#/m^3]
+    
+    % Debeye Temperature
+    prop.Td = 1024;%[K] -> wikipedia
+    
+    % Phonon Heat Capacity Coefficient
+%     prop.gC_mol     =;%[J/kmol/K^4]
+%     prop.gC_v     = prop.gC_mol/prop.A*prop.rhoD_m; % [J/m^3/K^4] = [J/kmol/K^4]*[kmol/kg]*[kg/m^3] 
+    prop.gC_v  = 12*pi^4/5*pc.kb*prop.rhoD_n/prop.Td^3; %J/K^4/m^3
+    
+elseif any(strcmpi(MatStr,{'W','Tungsten'}))
+%Tungsten
+    prop.name='W';
+    
+    prop.A = 183.84;%[AMU] -> wikipedia
+    
+    % Density
+    prop.rhoD_m = 19.25e3; %[kg/m^3] -> wikipedia
+    prop.rhoD_n = prop.rhoD_m/prop.A*pc.nA_kg; %[#/m^3]
+    
+    % W linear coefficient of heat capacity 
+    prop.gC_v = 108; %[J/m^3/K^2] From CRESST LTD7
+    
+    prop.gC2_mol = 1.01e-3; %[J/gmol/K^2]
+    prop.gC2_v = prop.gC2_mol / pc.nA_g * prop.rhoD_n; %[J/m^3/K^2]
+    
+    %Exponent for linear coefficient of heat capacity;
+    prop.nC =1;
+    
+    % Superconducting heat capacity boost (ratio of heat capacity for superconducting state and normal metal state)
+    prop.fCsn =2.43;% let's take into account that in the SC transition the heat capacity is larger
+
+    % electron/phonon thermal coupling coefficient
+    prop.gPep_v = 0.32e9; %[W/K^5/m^3] TAREK THESIS p.70
+    % Exponent for thermal conductivity between e/h and phonon system
+    prop.nPep = 5;
+    
+    % electronic thermal conductance power law scaling coefficient
+    prop.nPee=2; %n-1 is the thermal conductivity scaling coefficient 
+    
+    % electrical conductivity
+    prop.rho  = 4.0 * 35e-9; %[Ohm m] -> this is CDMS W from the balzers
+    prop.rho2 = 0.3 * (200e-9*7.5e-3)/5.9e-3; %[Ohm m] -> this is CRESST W
+    
+    %----- Tc ----
+    %characteristic Tc will be varied a lot!
+    prop.Tc =60e-3;%[K]; 
+    % Tc width
+    wTc_1090=1.5e-3; %[K]   
+    prop.wTc = wTc_1090/2/log(3); %[K]
+    
+  
+elseif any(strcmpi(MatStr,{'Al','Aluminum'}))
+    prop.name='Al';
+    
+    % Efficiency of energy transfer from athermal phonons to quasi-particles 
+    prop.ePQP = 0.52;
+    
+    % QuasiParticle trapping length in our current Al fins
+    prop.ldiffQP = 135e-6; %[m]
+    %prop.ldiffQP = 300e-6; %[m]
+else
+    display('Pertinent element info not stored')
+    display('Please Consider Adding')
+    return
+end
